@@ -12,7 +12,7 @@ The goal is a framework you can extend without touching the core: drop a `SKILL.
 
 - **Modular commands** — Commands are grouped by domain (core, files, search, tasks, dev, vault, provider, usage, analyze) and self-register with a Commander.js program, so new command modules are additive.
 - **Interactive TUI** — Autocomplete, command history, and `/skill` invocation for an interactive session, or run any command one-shot.
-- **Multi-provider AI** — First-class support for Anthropic, OpenAI/Codex, and Ollama behind one abstraction. Switch with `--provider` or config; each provider maps `fast` / `standard` / `advanced` tiers to concrete models.
+- **Provider abstraction** — One `--provider` interface with `fast` / `standard` / `advanced` tier mapping. **Anthropic** is fully implemented (client, prompt caching, cost ledger, rate limits); **Ollama** runs via MCP with multi-node fleet routing; the **OpenAI** provider is scaffolded (config + tier mapping) pending a client.
 - **Fleet routing** — Route Ollama workloads across multiple nodes with health checks, capability matching, and priority-based selection.
 - **Skills** — Packaged workflows defined by a `SKILL.md` with YAML frontmatter, discovered across a prioritized set of search paths (project, user, and env-configured).
 - **Lifecycle hooks** — Emit/subscribe hook system for `SessionStart`, `PreCommand`, `PostCommand`, `PreToolUse`, `PostToolUse`, and more, with the ability to block an action.
@@ -71,7 +71,7 @@ structure provider status
 src/
 ├── cli/          # Entry point + argument parsing (Commander.js)
 ├── commands/     # Command modules, self-registered via registerCommands()
-│   └── provider/ # Multi-provider management (Anthropic, OpenAI, Ollama)
+│   └── provider/ # Provider management (Anthropic implemented; Ollama via MCP; OpenAI scaffolded)
 ├── tui/          # Interactive terminal UI
 ├── hooks/        # Lifecycle event system (emit/subscribe, blocking)
 ├── skills/       # SKILL.md loader + runner
